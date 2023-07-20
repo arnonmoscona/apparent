@@ -1,0 +1,32 @@
+[project]
+name = "apparent"
+version = "0.1.0"
+description = "A toolkit for code observability in-process data collection: timing, counters, and metrics."
+readme = "README.md"
+requires-python = ">=3.9"
+license = {file = "LICENSE.txt"}
+keywords = ["apparent", "observability", "monitoring", "timers", "timing", "counters", "metrics"]
+authors = [{name = "Arnon Moscona", email = "arnon@moscona.com"}]
+maintainers = [{name = "Arnon Moscona", email = "arnon@moscona.com"}]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python"
+]
+
+[project.urls]
+repository = "https://github.com/arnonmoscona/apparent"
+
+[build-system]
+requires = [
+    "setuptools",
+    "setuptools-scm"
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["apparent"]
+
+[project.optional-dependencies]
+test = [
+    "coverage"
+]

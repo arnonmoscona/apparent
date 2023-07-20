@@ -1,0 +1,7 @@
+#!/bin/sh
+#
+# Copyright (c) Arnon Moscona 2023. under Apache2 license
+#
+
+coverage run -m unittest discover -s tests -t tests -p '*tests.py'
+coverage report

@@ -1,0 +1,8 @@
+#!/bin/sh
+#
+# Copyright (c) Arnon Moscona 2023. under Apache2 license
+#
+
+# Runs all unit tests. Requires a virtualenv properly set up
+export PYTHONPATH=.:tests
+python -m unittest discover -s tests -t tests -p '*tests.py' -v
