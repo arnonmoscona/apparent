@@ -359,3 +359,4 @@ cython_debug/
 # project specific
 draft
 todo.md
+.python-version
