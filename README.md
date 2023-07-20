@@ -8,6 +8,10 @@ This library is not intended to replace or compete with observability tools and 
 for day to day development use with a longer term objective of easy connectivity to observability 
 Tools and frameworks. It is intended to remain small and compact.
 
+## Installation
+
+`python -m pip install apparent`
+
 ## Collect timing information
 
 The most common use and the first to release as OSS is the timers functionality. There are many tools out there that do
