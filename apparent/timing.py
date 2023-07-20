@@ -6,7 +6,7 @@ from dataclasses import asdict, dataclass
 from enum import Enum
 from functools import wraps
 from time import perf_counter
-from typing import Protocol, Type
+from typing import Protocol, Type, Union
 
 
 class Units(Enum):
@@ -228,14 +228,14 @@ class TimerRegistryType(Protocol):
 
 class Timed:
     """A simple class to associate a timer registry with the timed decorator. Rarely used."""
-    _registry: TimerRegistryType | Type[TimerRegistry] = TimerRegistry
+    _registry: Union[TimerRegistryType, Type[TimerRegistry]] = TimerRegistry
 
     @classmethod
-    def registry(cls) -> TimerRegistryType | Type[TimerRegistry]:
+    def registry(cls) -> Union[TimerRegistryType, Type[TimerRegistry]]:
         return cls._registry
 
     @classmethod
-    def set_registry(cls, registry: TimerRegistryType | Type[TimerRegistry]):
+    def set_registry(cls, registry: Union[TimerRegistryType, Type[TimerRegistry]]):
         cls._registry = registry
 
 
