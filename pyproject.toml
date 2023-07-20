@@ -1,6 +1,6 @@
 [project]
 name = "apparent"
-version = "0.1.0"
+version = "0.1.1"
 description = "A toolkit for code observability in-process data collection: timing, counters, and metrics."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -10,18 +10,16 @@ authors = [{name = "Arnon Moscona", email = "arnon@moscona.com"}]
 maintainers = [{name = "Arnon Moscona", email = "arnon@moscona.com"}]
 classifiers = [
     "Development Status :: 4 - Beta",
-    "Programming Language :: Python"
+    "Programming Language :: Python",
+    "License :: OSI Approved :: Apache Software License"
 ]
 
 [project.urls]
 repository = "https://github.com/arnonmoscona/apparent"
 
 [build-system]
-requires = [
-    "setuptools",
-    "setuptools-scm"
-]
-build-backend = "setuptools.build_meta"
+requires = ["flit_core >=3.4"]
+build-backend = "flit_core.buildapi"
 
 [tool.setuptools]
 packages = ["apparent"]
@@ -30,3 +28,7 @@ packages = ["apparent"]
 test = [
     "coverage"
 ]
+
+[tool.flit.sdist]
+include = ["doc/", "apparent/", "bin/", "LICENSE.txt"]
+exclude = ["draft/", ".idea", ".coverage", ".python-version", "todos.md"]
