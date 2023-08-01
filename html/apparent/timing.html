@@ -1,0 +1,1269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>apparent.timing API documentation</title>
+<meta name="description" content="The main module for explicit timing measurement support. See @timed" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>apparent.timing</code></h1>
+</header>
+<section id="section-intro">
+<p>The main module for explicit timing measurement support. See @timed</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">#  Copyright (c) Arnon Moscona 2023. under Apache2 license
+&#34;&#34;&#34;The main module for explicit timing measurement support. See @timed&#34;&#34;&#34;
+import math
+from contextlib import AbstractContextManager
+from dataclasses import asdict, dataclass
+from enum import Enum
+from functools import wraps
+from time import perf_counter
+from typing import Protocol, Type, Union
+
+
+class Units(Enum):
+    MIN = &#39;min&#39;
+    SEC = &#39;sec&#39;
+    MSEC = &#39;msec&#39;
+
+
+_CONVERSION_FACTOR = {
+    Units.MIN: 1.0 / 60.0,
+    Units.SEC: 1.0,
+    Units.MSEC: 1000
+}
+
+
+@dataclass
+class TimerResults:
+    &#34;&#34;&#34;Results from a timer: basic descriptive statistics (default in seconds).
+    This class is generally produced by timers and not instantiated directly by library users&#34;&#34;&#34;
+    total_time: float
+    count: int
+    mean: float
+    stdevp: float
+    min: float
+    max: float
+    timer_name: str
+    units: Units = Units.SEC
+
+    def convert(self, units: Units) -&gt; &#39;TimerResults&#39;:
+        &#34;&#34;&#34;Convert the timer results to the given units&#34;&#34;&#34;
+        factor = _CONVERSION_FACTOR[units] if self.units == Units.SEC \
+            else _CONVERSION_FACTOR[units] / _CONVERSION_FACTOR[self.units]
+        return TimerResults(
+            total_time=self.total_time * factor,
+            count=self.count,
+            mean=self.mean * factor,
+            stdevp=self.stdevp * factor,
+            min=self.min * factor,
+            max=self.max * factor,
+            timer_name=self.timer_name,
+            units=units)
+
+    def dict(self, verbose: bool = True) -&gt; dict:
+        &#34;&#34;&#34;Convert the timer results to a dictionary representation.&#34;&#34;&#34;
+        return asdict(self) if verbose else {&#39;timer_name&#39;: self.timer_name,
+                                             &#39;total_time&#39;: self.total_time,
+                                             &#39;count&#39;: self.count,
+                                             &#39;mean&#39;: self.mean,
+                                             &#39;units&#39;: self.units}
+
+    def round(self, digits: int = 1) -&gt; &#39;TimerResults&#39;:
+        &#34;&#34;&#34;Round the timer results to the given number of digits. Useful for presentation and for comparison.&#34;&#34;&#34;
+        return TimerResults(
+            total_time=round(self.total_time, digits),
+            count=self.count,
+            mean=round(self.mean, digits),
+            stdevp=round(self.stdevp, digits),
+            min=round(self.min, digits),
+            max=round(self.max, digits),
+            timer_name=self.timer_name,
+            units=self.units)
+
+
+class RunningVariance:
+    &#34;&#34;&#34;Variance using the shifted data algorithm for unbiased sample variance as described in
+    https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Computing_shifted_data&#34;&#34;&#34;
+    def __init__(self):
+        # All variable names are taken from the Wikipedia article to make it easier to follow
+        self._k: float = 0  # This will be the first value from the sample (shift value)
+        self._n: int = 0  # sample count
+        self._ex: float = 0  # sum of differences from shift value
+        self._ex2: float = 0  # sum of squared differences from shift value
+
+    def add(self, x: float):
+        &#34;&#34;&#34;Add a value to the running variance&#34;&#34;&#34;
+        if self._n == 0:
+            self._k = x
+        self._n += 1
+        self._ex += x - self._k
+        self._ex2 += (x - self._k) ** 2
+
+    def mean(self) -&gt; float:
+        &#34;&#34;&#34;Return the mean of the added values&#34;&#34;&#34;
+        return self._k + self._ex / self._n
+
+    def variance(self, population: bool = False) -&gt; float:
+        &#34;&#34;&#34;Computes the variance of the added values. By default uses sample variance. Can be population variance&#34;&#34;&#34;
+        return (self._ex2 - self._ex ** 2 / self._n) / (self._n if population else self._n - 1)
+
+    def stdev(self) -&gt; float:
+        &#34;&#34;&#34;Computes the standard deviation of the added values.
+        By default uses sample variance. Can be population variance&#34;&#34;&#34;
+        return math.sqrt(self.variance())
+
+    def stdevp(self) -&gt; float:
+        &#34;&#34;&#34;Computes the population standard deviation of the added values. &#34;&#34;&#34;
+        return math.sqrt(self.variance(population=True))
+
+    @property
+    def n(self):
+        &#34;&#34;&#34;Return the number of values added&#34;&#34;&#34;
+        return self._n
+
+
+class Timer(AbstractContextManager):
+    &#34;&#34;&#34;A context manager for timing operations. Usually used in conjunction with a timer registry.
+    Most of the time you will find yourself using one of the associated function decorators, such as @timed&#34;&#34;&#34;
+    def __init__(self, name=None):
+        if not isinstance(name, str):
+            raise TypeError(&#39;name must be a string&#39;)
+        self.name = name
+        self.variance: RunningVariance = RunningVariance()
+        self.sum = 0
+        self._min = math.inf
+        self._max = -math.inf
+        self.start_time = 0
+
+    def __enter__(self):
+        self.start_time = perf_counter()
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        elapsed = (perf_counter() - self.start_time)
+        self.variance.add(elapsed)
+        self.sum += elapsed
+        self._min = min(self._min, elapsed)
+        self._max = max(self._max, elapsed)
+
+    @property
+    def counter(self) -&gt; int:
+        &#34;&#34;&#34;The number of times the timer has been invoked&#34;&#34;&#34;
+        return self.variance.n
+
+    @property
+    def mean(self) -&gt; float:
+        &#34;&#34;&#34;Mean of all observations. NaN if no observations have been recorded&#34;&#34;&#34;
+        return self.variance.mean() if self.counter &gt; 0 else math.nan
+
+    @property
+    def stdevp(self) -&gt; float:
+        &#34;&#34;&#34;Population standard deviation of all observations. NaN if less than 2 observations have been recorded&#34;&#34;&#34;
+        return self.variance.stdevp() if self.counter &gt; 2 else math.nan
+
+    @property
+    def min(self) -&gt; float:
+        &#34;&#34;&#34;Minimum of all observations. NaN if no observations have been recorded&#34;&#34;&#34;
+        return self._min if self.counter &gt; 0 else math.nan
+
+    @property
+    def max(self) -&gt; float:
+        &#34;&#34;&#34;Maximum of all observations. NaN if no observations have been recorded&#34;&#34;&#34;
+        return self._max if self.counter &gt; 0 else math.nan
+
+    def results(self, units=Units.SEC) -&gt; TimerResults:
+        &#34;&#34;&#34;TimerResults object packaging the summary of currrent observations.&#34;&#34;&#34;
+        result = TimerResults(count=self.counter, total_time=self.sum,
+                              mean=self.mean, stdevp=self.stdevp,
+                              min=self.min, max=self.max,
+                              timer_name=self.name)
+        return result if units == Units.SEC else result.convert(units)
+
+
+class TimerRegistry:
+    &#34;&#34;&#34;The default collection for all the timers. Used primarily with the @timed function decorator&#34;&#34;&#34;
+    _shared: dict[str, Timer] = {}
+
+    @classmethod
+    def get(cls, name: str) -&gt; Timer:
+        &#34;&#34;&#34;Returns a named registered timer, whether it already existed or not,
+        allowing for easy reuse, e.g. in loops&#34;&#34;&#34;
+        if name not in cls._shared:
+            cls._shared[name] = Timer(name)
+        return cls._shared[name]
+
+    @classmethod
+    def clear(cls):
+        &#34;&#34;&#34;Clears the entire registry. All timers gone.&#34;&#34;&#34;
+        cls._shared.clear()
+
+    @classmethod
+    def names(cls) -&gt; list[str]:
+        &#34;&#34;&#34;Lists all the timer names in the registry.
+        Since it is expected that the number of timers will be limited and the whole
+        package is not intended for very high scale we return a concrete list rather than an iterator&#34;&#34;&#34;
+        return list(cls._shared.keys())
+
+    @classmethod
+    def timers(cls):
+        &#34;&#34;&#34;Lists all the timers in the registry.
+        Since it is expected that the number of timers will be limited and the whole
+        package is not intended for very high scale we return a concrete list rather than an iterator&#34;&#34;&#34;
+        return list(cls._shared.values())
+
+    @classmethod
+    def reset(cls, name: str):
+        &#34;&#34;&#34;Resets / deletes a named timer.&#34;&#34;&#34;
+        if name in cls._shared:
+            del cls._shared[name]
+
+
+class TimerRegistryType(Protocol):
+    &#34;&#34;&#34;For users who want to use some other implementation of a timer registry or want to
+    use several timer registries for different contexts.&#34;&#34;&#34;
+    def get(self, name: str) -&gt; Timer:
+        ...
+
+    def clear(self):
+        ...
+
+    def names(self):
+        ...
+
+    def timers(self):
+        ...
+
+    def reset(self, name: str):
+        ...
+
+
+class Timed:
+    &#34;&#34;&#34;A simple class to associate a timer registry with the timed decorator. Rarely used.&#34;&#34;&#34;
+    _registry: Union[TimerRegistryType, Type[TimerRegistry]] = TimerRegistry
+
+    @classmethod
+    def registry(cls) -&gt; Union[TimerRegistryType, Type[TimerRegistry]]:
+        return cls._registry
+
+    @classmethod
+    def set_registry(cls, registry: Union[TimerRegistryType, Type[TimerRegistry]]):
+        cls._registry = registry
+
+
+def timed(f):
+    &#34;&#34;&#34;A decorator for timing a function.
+    The decorated function will be called with a timer context manager to
+    record the time spent in the decorated function.
+    The timer registry that will be used for the decorated function is the one in effect
+    at the time of the function declaration. The timer name is automatically determined
+    from the module and qualified name of the function.&#34;&#34;&#34;
+    function_name = f&#39;{f.__module__}.{f.__qualname__}()&#39;
+
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        timer = Timed.registry().get(function_name)
+        with timer:
+            return f(*args, **kwargs)
+
+    return wrapper</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="apparent.timing.timed"><code class="name flex">
+<span>def <span class="ident">timed</span></span>(<span>f)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A decorator for timing a function.
+The decorated function will be called with a timer context manager to
+record the time spent in the decorated function.
+The timer registry that will be used for the decorated function is the one in effect
+at the time of the function declaration. The timer name is automatically determined
+from the module and qualified name of the function.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def timed(f):
+    &#34;&#34;&#34;A decorator for timing a function.
+    The decorated function will be called with a timer context manager to
+    record the time spent in the decorated function.
+    The timer registry that will be used for the decorated function is the one in effect
+    at the time of the function declaration. The timer name is automatically determined
+    from the module and qualified name of the function.&#34;&#34;&#34;
+    function_name = f&#39;{f.__module__}.{f.__qualname__}()&#39;
+
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        timer = Timed.registry().get(function_name)
+        with timer:
+            return f(*args, **kwargs)
+
+    return wrapper</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="apparent.timing.RunningVariance"><code class="flex name class">
+<span>class <span class="ident">RunningVariance</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Variance using the shifted data algorithm for unbiased sample variance as described in
+<a href="https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Computing_shifted_data">https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Computing_shifted_data</a></p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class RunningVariance:
+    &#34;&#34;&#34;Variance using the shifted data algorithm for unbiased sample variance as described in
+    https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Computing_shifted_data&#34;&#34;&#34;
+    def __init__(self):
+        # All variable names are taken from the Wikipedia article to make it easier to follow
+        self._k: float = 0  # This will be the first value from the sample (shift value)
+        self._n: int = 0  # sample count
+        self._ex: float = 0  # sum of differences from shift value
+        self._ex2: float = 0  # sum of squared differences from shift value
+
+    def add(self, x: float):
+        &#34;&#34;&#34;Add a value to the running variance&#34;&#34;&#34;
+        if self._n == 0:
+            self._k = x
+        self._n += 1
+        self._ex += x - self._k
+        self._ex2 += (x - self._k) ** 2
+
+    def mean(self) -&gt; float:
+        &#34;&#34;&#34;Return the mean of the added values&#34;&#34;&#34;
+        return self._k + self._ex / self._n
+
+    def variance(self, population: bool = False) -&gt; float:
+        &#34;&#34;&#34;Computes the variance of the added values. By default uses sample variance. Can be population variance&#34;&#34;&#34;
+        return (self._ex2 - self._ex ** 2 / self._n) / (self._n if population else self._n - 1)
+
+    def stdev(self) -&gt; float:
+        &#34;&#34;&#34;Computes the standard deviation of the added values.
+        By default uses sample variance. Can be population variance&#34;&#34;&#34;
+        return math.sqrt(self.variance())
+
+    def stdevp(self) -&gt; float:
+        &#34;&#34;&#34;Computes the population standard deviation of the added values. &#34;&#34;&#34;
+        return math.sqrt(self.variance(population=True))
+
+    @property
+    def n(self):
+        &#34;&#34;&#34;Return the number of values added&#34;&#34;&#34;
+        return self._n</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="apparent.timing.RunningVariance.n"><code class="name">var <span class="ident">n</span></code></dt>
+<dd>
+<div class="desc"><p>Return the number of values added</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def n(self):
+    &#34;&#34;&#34;Return the number of values added&#34;&#34;&#34;
+    return self._n</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="apparent.timing.RunningVariance.add"><code class="name flex">
+<span>def <span class="ident">add</span></span>(<span>self, x: float)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Add a value to the running variance</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add(self, x: float):
+    &#34;&#34;&#34;Add a value to the running variance&#34;&#34;&#34;
+    if self._n == 0:
+        self._k = x
+    self._n += 1
+    self._ex += x - self._k
+    self._ex2 += (x - self._k) ** 2</code></pre>
+</details>
+</dd>
+<dt id="apparent.timing.RunningVariance.mean"><code class="name flex">
+<span>def <span class="ident">mean</span></span>(<span>self) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Return the mean of the added values</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def mean(self) -&gt; float:
+    &#34;&#34;&#34;Return the mean of the added values&#34;&#34;&#34;
+    return self._k + self._ex / self._n</code></pre>
+</details>
+</dd>
+<dt id="apparent.timing.RunningVariance.stdev"><code class="name flex">
+<span>def <span class="ident">stdev</span></span>(<span>self) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Computes the standard deviation of the added values.
+By default uses sample variance. Can be population variance</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def stdev(self) -&gt; float:
+    &#34;&#34;&#34;Computes the standard deviation of the added values.
+    By default uses sample variance. Can be population variance&#34;&#34;&#34;
+    return math.sqrt(self.variance())</code></pre>
+</details>
+</dd>
+<dt id="apparent.timing.RunningVariance.stdevp"><code class="name flex">
+<span>def <span class="ident">stdevp</span></span>(<span>self) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Computes the population standard deviation of the added values.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def stdevp(self) -&gt; float:
+    &#34;&#34;&#34;Computes the population standard deviation of the added values. &#34;&#34;&#34;
+    return math.sqrt(self.variance(population=True))</code></pre>
+</details>
+</dd>
+<dt id="apparent.timing.RunningVariance.variance"><code class="name flex">
+<span>def <span class="ident">variance</span></span>(<span>self, population: bool = False) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Computes the variance of the added values. By default uses sample variance. Can be population variance</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def variance(self, population: bool = False) -&gt; float:
+    &#34;&#34;&#34;Computes the variance of the added values. By default uses sample variance. Can be population variance&#34;&#34;&#34;
+    return (self._ex2 - self._ex ** 2 / self._n) / (self._n if population else self._n - 1)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="apparent.timing.Timed"><code class="flex name class">
+<span>class <span class="ident">Timed</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>A simple class to associate a timer registry with the timed decorator. Rarely used.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Timed:
+    &#34;&#34;&#34;A simple class to associate a timer registry with the timed decorator. Rarely used.&#34;&#34;&#34;
+    _registry: Union[TimerRegistryType, Type[TimerRegistry]] = TimerRegistry
+
+    @classmethod
+    def registry(cls) -&gt; Union[TimerRegistryType, Type[TimerRegistry]]:
+        return cls._registry
+
+    @classmethod
+    def set_registry(cls, registry: Union[TimerRegistryType, Type[TimerRegistry]]):
+        cls._registry = registry</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="apparent.timing.Timed.registry"><code class="name flex">
+<span>def <span class="ident">registry</span></span>(<span>) ‑> Union[<a title="apparent.timing.TimerRegistryType" href="#apparent.timing.TimerRegistryType">TimerRegistryType</a>, Type[<a title="apparent.timing.TimerRegistry" href="#apparent.timing.TimerRegistry">TimerRegistry</a>]]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def registry(cls) -&gt; Union[TimerRegistryType, Type[TimerRegistry]]:
+    return cls._registry</code></pre>
+</details>
+</dd>
+<dt id="apparent.timing.Timed.set_registry"><code class="name flex">
+<span>def <span class="ident">set_registry</span></span>(<span>registry: Union[<a title="apparent.timing.TimerRegistryType" href="#apparent.timing.TimerRegistryType">TimerRegistryType</a>, Type[<a title="apparent.timing.TimerRegistry" href="#apparent.timing.TimerRegistry">TimerRegistry</a>]])</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def set_registry(cls, registry: Union[TimerRegistryType, Type[TimerRegistry]]):
+    cls._registry = registry</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="apparent.timing.Timer"><code class="flex name class">
+<span>class <span class="ident">Timer</span></span>
+<span>(</span><span>name=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A context manager for timing operations. Usually used in conjunction with a timer registry.
+Most of the time you will find yourself using one of the associated function decorators, such as @timed</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Timer(AbstractContextManager):
+    &#34;&#34;&#34;A context manager for timing operations. Usually used in conjunction with a timer registry.
+    Most of the time you will find yourself using one of the associated function decorators, such as @timed&#34;&#34;&#34;
+    def __init__(self, name=None):
+        if not isinstance(name, str):
+            raise TypeError(&#39;name must be a string&#39;)
+        self.name = name
+        self.variance: RunningVariance = RunningVariance()
+        self.sum = 0
+        self._min = math.inf
+        self._max = -math.inf
+        self.start_time = 0
+
+    def __enter__(self):
+        self.start_time = perf_counter()
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        elapsed = (perf_counter() - self.start_time)
+        self.variance.add(elapsed)
+        self.sum += elapsed
+        self._min = min(self._min, elapsed)
+        self._max = max(self._max, elapsed)
+
+    @property
+    def counter(self) -&gt; int:
+        &#34;&#34;&#34;The number of times the timer has been invoked&#34;&#34;&#34;
+        return self.variance.n
+
+    @property
+    def mean(self) -&gt; float:
+        &#34;&#34;&#34;Mean of all observations. NaN if no observations have been recorded&#34;&#34;&#34;
+        return self.variance.mean() if self.counter &gt; 0 else math.nan
+
+    @property
+    def stdevp(self) -&gt; float:
+        &#34;&#34;&#34;Population standard deviation of all observations. NaN if less than 2 observations have been recorded&#34;&#34;&#34;
+        return self.variance.stdevp() if self.counter &gt; 2 else math.nan
+
+    @property
+    def min(self) -&gt; float:
+        &#34;&#34;&#34;Minimum of all observations. NaN if no observations have been recorded&#34;&#34;&#34;
+        return self._min if self.counter &gt; 0 else math.nan
+
+    @property
+    def max(self) -&gt; float:
+        &#34;&#34;&#34;Maximum of all observations. NaN if no observations have been recorded&#34;&#34;&#34;
+        return self._max if self.counter &gt; 0 else math.nan
+
+    def results(self, units=Units.SEC) -&gt; TimerResults:
+        &#34;&#34;&#34;TimerResults object packaging the summary of currrent observations.&#34;&#34;&#34;
+        result = TimerResults(count=self.counter, total_time=self.sum,
+                              mean=self.mean, stdevp=self.stdevp,
+                              min=self.min, max=self.max,
+                              timer_name=self.name)
+        return result if units == Units.SEC else result.convert(units)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>contextlib.AbstractContextManager</li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="apparent.timing.Timer.counter"><code class="name">var <span class="ident">counter</span> : int</code></dt>
+<dd>
+<div class="desc"><p>The number of times the timer has been invoked</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def counter(self) -&gt; int:
+    &#34;&#34;&#34;The number of times the timer has been invoked&#34;&#34;&#34;
+    return self.variance.n</code></pre>
+</details>
+</dd>
+<dt id="apparent.timing.Timer.max"><code class="name">var <span class="ident">max</span> : float</code></dt>
+<dd>
+<div class="desc"><p>Maximum of all observations. NaN if no observations have been recorded</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def max(self) -&gt; float:
+    &#34;&#34;&#34;Maximum of all observations. NaN if no observations have been recorded&#34;&#34;&#34;
+    return self._max if self.counter &gt; 0 else math.nan</code></pre>
+</details>
+</dd>
+<dt id="apparent.timing.Timer.mean"><code class="name">var <span class="ident">mean</span> : float</code></dt>
+<dd>
+<div class="desc"><p>Mean of all observations. NaN if no observations have been recorded</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def mean(self) -&gt; float:
+    &#34;&#34;&#34;Mean of all observations. NaN if no observations have been recorded&#34;&#34;&#34;
+    return self.variance.mean() if self.counter &gt; 0 else math.nan</code></pre>
+</details>
+</dd>
+<dt id="apparent.timing.Timer.min"><code class="name">var <span class="ident">min</span> : float</code></dt>
+<dd>
+<div class="desc"><p>Minimum of all observations. NaN if no observations have been recorded</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def min(self) -&gt; float:
+    &#34;&#34;&#34;Minimum of all observations. NaN if no observations have been recorded&#34;&#34;&#34;
+    return self._min if self.counter &gt; 0 else math.nan</code></pre>
+</details>
+</dd>
+<dt id="apparent.timing.Timer.stdevp"><code class="name">var <span class="ident">stdevp</span> : float</code></dt>
+<dd>
+<div class="desc"><p>Population standard deviation of all observations. NaN if less than 2 observations have been recorded</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def stdevp(self) -&gt; float:
+    &#34;&#34;&#34;Population standard deviation of all observations. NaN if less than 2 observations have been recorded&#34;&#34;&#34;
+    return self.variance.stdevp() if self.counter &gt; 2 else math.nan</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="apparent.timing.Timer.results"><code class="name flex">
+<span>def <span class="ident">results</span></span>(<span>self, units=Units.SEC) ‑> <a title="apparent.timing.TimerResults" href="#apparent.timing.TimerResults">TimerResults</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>TimerResults object packaging the summary of currrent observations.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def results(self, units=Units.SEC) -&gt; TimerResults:
+    &#34;&#34;&#34;TimerResults object packaging the summary of currrent observations.&#34;&#34;&#34;
+    result = TimerResults(count=self.counter, total_time=self.sum,
+                          mean=self.mean, stdevp=self.stdevp,
+                          min=self.min, max=self.max,
+                          timer_name=self.name)
+    return result if units == Units.SEC else result.convert(units)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="apparent.timing.TimerRegistry"><code class="flex name class">
+<span>class <span class="ident">TimerRegistry</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>The default collection for all the timers. Used primarily with the @timed function decorator</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TimerRegistry:
+    &#34;&#34;&#34;The default collection for all the timers. Used primarily with the @timed function decorator&#34;&#34;&#34;
+    _shared: dict[str, Timer] = {}
+
+    @classmethod
+    def get(cls, name: str) -&gt; Timer:
+        &#34;&#34;&#34;Returns a named registered timer, whether it already existed or not,
+        allowing for easy reuse, e.g. in loops&#34;&#34;&#34;
+        if name not in cls._shared:
+            cls._shared[name] = Timer(name)
+        return cls._shared[name]
+
+    @classmethod
+    def clear(cls):
+        &#34;&#34;&#34;Clears the entire registry. All timers gone.&#34;&#34;&#34;
+        cls._shared.clear()
+
+    @classmethod
+    def names(cls) -&gt; list[str]:
+        &#34;&#34;&#34;Lists all the timer names in the registry.
+        Since it is expected that the number of timers will be limited and the whole
+        package is not intended for very high scale we return a concrete list rather than an iterator&#34;&#34;&#34;
+        return list(cls._shared.keys())
+
+    @classmethod
+    def timers(cls):
+        &#34;&#34;&#34;Lists all the timers in the registry.
+        Since it is expected that the number of timers will be limited and the whole
+        package is not intended for very high scale we return a concrete list rather than an iterator&#34;&#34;&#34;
+        return list(cls._shared.values())
+
+    @classmethod
+    def reset(cls, name: str):
+        &#34;&#34;&#34;Resets / deletes a named timer.&#34;&#34;&#34;
+        if name in cls._shared:
+            del cls._shared[name]</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="apparent.timing.TimerRegistry.clear"><code class="name flex">
+<span>def <span class="ident">clear</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Clears the entire registry. All timers gone.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def clear(cls):
+    &#34;&#34;&#34;Clears the entire registry. All timers gone.&#34;&#34;&#34;
+    cls._shared.clear()</code></pre>
+</details>
+</dd>
+<dt id="apparent.timing.TimerRegistry.get"><code class="name flex">
+<span>def <span class="ident">get</span></span>(<span>name: str) ‑> <a title="apparent.timing.Timer" href="#apparent.timing.Timer">Timer</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a named registered timer, whether it already existed or not,
+allowing for easy reuse, e.g. in loops</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def get(cls, name: str) -&gt; Timer:
+    &#34;&#34;&#34;Returns a named registered timer, whether it already existed or not,
+    allowing for easy reuse, e.g. in loops&#34;&#34;&#34;
+    if name not in cls._shared:
+        cls._shared[name] = Timer(name)
+    return cls._shared[name]</code></pre>
+</details>
+</dd>
+<dt id="apparent.timing.TimerRegistry.names"><code class="name flex">
+<span>def <span class="ident">names</span></span>(<span>) ‑> list[str]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Lists all the timer names in the registry.
+Since it is expected that the number of timers will be limited and the whole
+package is not intended for very high scale we return a concrete list rather than an iterator</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def names(cls) -&gt; list[str]:
+    &#34;&#34;&#34;Lists all the timer names in the registry.
+    Since it is expected that the number of timers will be limited and the whole
+    package is not intended for very high scale we return a concrete list rather than an iterator&#34;&#34;&#34;
+    return list(cls._shared.keys())</code></pre>
+</details>
+</dd>
+<dt id="apparent.timing.TimerRegistry.reset"><code class="name flex">
+<span>def <span class="ident">reset</span></span>(<span>name: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Resets / deletes a named timer.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def reset(cls, name: str):
+    &#34;&#34;&#34;Resets / deletes a named timer.&#34;&#34;&#34;
+    if name in cls._shared:
+        del cls._shared[name]</code></pre>
+</details>
+</dd>
+<dt id="apparent.timing.TimerRegistry.timers"><code class="name flex">
+<span>def <span class="ident">timers</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Lists all the timers in the registry.
+Since it is expected that the number of timers will be limited and the whole
+package is not intended for very high scale we return a concrete list rather than an iterator</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def timers(cls):
+    &#34;&#34;&#34;Lists all the timers in the registry.
+    Since it is expected that the number of timers will be limited and the whole
+    package is not intended for very high scale we return a concrete list rather than an iterator&#34;&#34;&#34;
+    return list(cls._shared.values())</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="apparent.timing.TimerRegistryType"><code class="flex name class">
+<span>class <span class="ident">TimerRegistryType</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>For users who want to use some other implementation of a timer registry or want to
+use several timer registries for different contexts.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TimerRegistryType(Protocol):
+    &#34;&#34;&#34;For users who want to use some other implementation of a timer registry or want to
+    use several timer registries for different contexts.&#34;&#34;&#34;
+    def get(self, name: str) -&gt; Timer:
+        ...
+
+    def clear(self):
+        ...
+
+    def names(self):
+        ...
+
+    def timers(self):
+        ...
+
+    def reset(self, name: str):
+        ...</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>typing.Protocol</li>
+<li>typing.Generic</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="apparent.timing.TimerRegistryType.clear"><code class="name flex">
+<span>def <span class="ident">clear</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def clear(self):
+    ...</code></pre>
+</details>
+</dd>
+<dt id="apparent.timing.TimerRegistryType.get"><code class="name flex">
+<span>def <span class="ident">get</span></span>(<span>self, name: str) ‑> <a title="apparent.timing.Timer" href="#apparent.timing.Timer">Timer</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get(self, name: str) -&gt; Timer:
+    ...</code></pre>
+</details>
+</dd>
+<dt id="apparent.timing.TimerRegistryType.names"><code class="name flex">
+<span>def <span class="ident">names</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def names(self):
+    ...</code></pre>
+</details>
+</dd>
+<dt id="apparent.timing.TimerRegistryType.reset"><code class="name flex">
+<span>def <span class="ident">reset</span></span>(<span>self, name: str)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def reset(self, name: str):
+    ...</code></pre>
+</details>
+</dd>
+<dt id="apparent.timing.TimerRegistryType.timers"><code class="name flex">
+<span>def <span class="ident">timers</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def timers(self):
+    ...</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="apparent.timing.TimerResults"><code class="flex name class">
+<span>class <span class="ident">TimerResults</span></span>
+<span>(</span><span>total_time: float, count: int, mean: float, stdevp: float, min: float, max: float, timer_name: str, units: <a title="apparent.timing.Units" href="#apparent.timing.Units">Units</a> = Units.SEC)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Results from a timer: basic descriptive statistics (default in seconds).
+This class is generally produced by timers and not instantiated directly by library users</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class TimerResults:
+    &#34;&#34;&#34;Results from a timer: basic descriptive statistics (default in seconds).
+    This class is generally produced by timers and not instantiated directly by library users&#34;&#34;&#34;
+    total_time: float
+    count: int
+    mean: float
+    stdevp: float
+    min: float
+    max: float
+    timer_name: str
+    units: Units = Units.SEC
+
+    def convert(self, units: Units) -&gt; &#39;TimerResults&#39;:
+        &#34;&#34;&#34;Convert the timer results to the given units&#34;&#34;&#34;
+        factor = _CONVERSION_FACTOR[units] if self.units == Units.SEC \
+            else _CONVERSION_FACTOR[units] / _CONVERSION_FACTOR[self.units]
+        return TimerResults(
+            total_time=self.total_time * factor,
+            count=self.count,
+            mean=self.mean * factor,
+            stdevp=self.stdevp * factor,
+            min=self.min * factor,
+            max=self.max * factor,
+            timer_name=self.timer_name,
+            units=units)
+
+    def dict(self, verbose: bool = True) -&gt; dict:
+        &#34;&#34;&#34;Convert the timer results to a dictionary representation.&#34;&#34;&#34;
+        return asdict(self) if verbose else {&#39;timer_name&#39;: self.timer_name,
+                                             &#39;total_time&#39;: self.total_time,
+                                             &#39;count&#39;: self.count,
+                                             &#39;mean&#39;: self.mean,
+                                             &#39;units&#39;: self.units}
+
+    def round(self, digits: int = 1) -&gt; &#39;TimerResults&#39;:
+        &#34;&#34;&#34;Round the timer results to the given number of digits. Useful for presentation and for comparison.&#34;&#34;&#34;
+        return TimerResults(
+            total_time=round(self.total_time, digits),
+            count=self.count,
+            mean=round(self.mean, digits),
+            stdevp=round(self.stdevp, digits),
+            min=round(self.min, digits),
+            max=round(self.max, digits),
+            timer_name=self.timer_name,
+            units=self.units)</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="apparent.timing.TimerResults.count"><code class="name">var <span class="ident">count</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="apparent.timing.TimerResults.max"><code class="name">var <span class="ident">max</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="apparent.timing.TimerResults.mean"><code class="name">var <span class="ident">mean</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="apparent.timing.TimerResults.min"><code class="name">var <span class="ident">min</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="apparent.timing.TimerResults.stdevp"><code class="name">var <span class="ident">stdevp</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="apparent.timing.TimerResults.timer_name"><code class="name">var <span class="ident">timer_name</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="apparent.timing.TimerResults.total_time"><code class="name">var <span class="ident">total_time</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="apparent.timing.TimerResults.units"><code class="name">var <span class="ident">units</span> : <a title="apparent.timing.Units" href="#apparent.timing.Units">Units</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="apparent.timing.TimerResults.convert"><code class="name flex">
+<span>def <span class="ident">convert</span></span>(<span>self, units: <a title="apparent.timing.Units" href="#apparent.timing.Units">Units</a>) ‑> <a title="apparent.timing.TimerResults" href="#apparent.timing.TimerResults">TimerResults</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert the timer results to the given units</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def convert(self, units: Units) -&gt; &#39;TimerResults&#39;:
+    &#34;&#34;&#34;Convert the timer results to the given units&#34;&#34;&#34;
+    factor = _CONVERSION_FACTOR[units] if self.units == Units.SEC \
+        else _CONVERSION_FACTOR[units] / _CONVERSION_FACTOR[self.units]
+    return TimerResults(
+        total_time=self.total_time * factor,
+        count=self.count,
+        mean=self.mean * factor,
+        stdevp=self.stdevp * factor,
+        min=self.min * factor,
+        max=self.max * factor,
+        timer_name=self.timer_name,
+        units=units)</code></pre>
+</details>
+</dd>
+<dt id="apparent.timing.TimerResults.dict"><code class="name flex">
+<span>def <span class="ident">dict</span></span>(<span>self, verbose: bool = True) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert the timer results to a dictionary representation.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def dict(self, verbose: bool = True) -&gt; dict:
+    &#34;&#34;&#34;Convert the timer results to a dictionary representation.&#34;&#34;&#34;
+    return asdict(self) if verbose else {&#39;timer_name&#39;: self.timer_name,
+                                         &#39;total_time&#39;: self.total_time,
+                                         &#39;count&#39;: self.count,
+                                         &#39;mean&#39;: self.mean,
+                                         &#39;units&#39;: self.units}</code></pre>
+</details>
+</dd>
+<dt id="apparent.timing.TimerResults.round"><code class="name flex">
+<span>def <span class="ident">round</span></span>(<span>self, digits: int = 1) ‑> <a title="apparent.timing.TimerResults" href="#apparent.timing.TimerResults">TimerResults</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Round the timer results to the given number of digits. Useful for presentation and for comparison.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def round(self, digits: int = 1) -&gt; &#39;TimerResults&#39;:
+    &#34;&#34;&#34;Round the timer results to the given number of digits. Useful for presentation and for comparison.&#34;&#34;&#34;
+    return TimerResults(
+        total_time=round(self.total_time, digits),
+        count=self.count,
+        mean=round(self.mean, digits),
+        stdevp=round(self.stdevp, digits),
+        min=round(self.min, digits),
+        max=round(self.max, digits),
+        timer_name=self.timer_name,
+        units=self.units)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="apparent.timing.Units"><code class="flex name class">
+<span>class <span class="ident">Units</span></span>
+<span>(</span><span>*args, **kwds)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create a collection of name/value pairs.</p>
+<p>Example enumeration:</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; class Color(Enum):
+...     RED = 1
+...     BLUE = 2
+...     GREEN = 3
+</code></pre>
+<p>Access them by:</p>
+<ul>
+<li>attribute access::</li>
+</ul>
+<pre><code class="language-python-repl">&gt;&gt;&gt; Color.RED
+&lt;Color.RED: 1&gt;
+</code></pre>
+<ul>
+<li>value lookup:</li>
+</ul>
+<pre><code class="language-python-repl">&gt;&gt;&gt; Color(1)
+&lt;Color.RED: 1&gt;
+</code></pre>
+<ul>
+<li>name lookup:</li>
+</ul>
+<pre><code class="language-python-repl">&gt;&gt;&gt; Color['RED']
+&lt;Color.RED: 1&gt;
+</code></pre>
+<p>Enumerations can be iterated over, and know how many members they have:</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; len(Color)
+3
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; list(Color)
+[&lt;Color.RED: 1&gt;, &lt;Color.BLUE: 2&gt;, &lt;Color.GREEN: 3&gt;]
+</code></pre>
+<p>Methods can be added to enumerations, and members can have their own
+attributes &ndash; see the documentation for details.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Units(Enum):
+    MIN = &#39;min&#39;
+    SEC = &#39;sec&#39;
+    MSEC = &#39;msec&#39;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="apparent.timing.Units.MIN"><code class="name">var <span class="ident">MIN</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="apparent.timing.Units.MSEC"><code class="name">var <span class="ident">MSEC</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="apparent.timing.Units.SEC"><code class="name">var <span class="ident">SEC</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="apparent" href="index.html">apparent</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="apparent.timing.timed" href="#apparent.timing.timed">timed</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="apparent.timing.RunningVariance" href="#apparent.timing.RunningVariance">RunningVariance</a></code></h4>
+<ul class="two-column">
+<li><code><a title="apparent.timing.RunningVariance.add" href="#apparent.timing.RunningVariance.add">add</a></code></li>
+<li><code><a title="apparent.timing.RunningVariance.mean" href="#apparent.timing.RunningVariance.mean">mean</a></code></li>
+<li><code><a title="apparent.timing.RunningVariance.n" href="#apparent.timing.RunningVariance.n">n</a></code></li>
+<li><code><a title="apparent.timing.RunningVariance.stdev" href="#apparent.timing.RunningVariance.stdev">stdev</a></code></li>
+<li><code><a title="apparent.timing.RunningVariance.stdevp" href="#apparent.timing.RunningVariance.stdevp">stdevp</a></code></li>
+<li><code><a title="apparent.timing.RunningVariance.variance" href="#apparent.timing.RunningVariance.variance">variance</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="apparent.timing.Timed" href="#apparent.timing.Timed">Timed</a></code></h4>
+<ul class="">
+<li><code><a title="apparent.timing.Timed.registry" href="#apparent.timing.Timed.registry">registry</a></code></li>
+<li><code><a title="apparent.timing.Timed.set_registry" href="#apparent.timing.Timed.set_registry">set_registry</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="apparent.timing.Timer" href="#apparent.timing.Timer">Timer</a></code></h4>
+<ul class="two-column">
+<li><code><a title="apparent.timing.Timer.counter" href="#apparent.timing.Timer.counter">counter</a></code></li>
+<li><code><a title="apparent.timing.Timer.max" href="#apparent.timing.Timer.max">max</a></code></li>
+<li><code><a title="apparent.timing.Timer.mean" href="#apparent.timing.Timer.mean">mean</a></code></li>
+<li><code><a title="apparent.timing.Timer.min" href="#apparent.timing.Timer.min">min</a></code></li>
+<li><code><a title="apparent.timing.Timer.results" href="#apparent.timing.Timer.results">results</a></code></li>
+<li><code><a title="apparent.timing.Timer.stdevp" href="#apparent.timing.Timer.stdevp">stdevp</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="apparent.timing.TimerRegistry" href="#apparent.timing.TimerRegistry">TimerRegistry</a></code></h4>
+<ul class="">
+<li><code><a title="apparent.timing.TimerRegistry.clear" href="#apparent.timing.TimerRegistry.clear">clear</a></code></li>
+<li><code><a title="apparent.timing.TimerRegistry.get" href="#apparent.timing.TimerRegistry.get">get</a></code></li>
+<li><code><a title="apparent.timing.TimerRegistry.names" href="#apparent.timing.TimerRegistry.names">names</a></code></li>
+<li><code><a title="apparent.timing.TimerRegistry.reset" href="#apparent.timing.TimerRegistry.reset">reset</a></code></li>
+<li><code><a title="apparent.timing.TimerRegistry.timers" href="#apparent.timing.TimerRegistry.timers">timers</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="apparent.timing.TimerRegistryType" href="#apparent.timing.TimerRegistryType">TimerRegistryType</a></code></h4>
+<ul class="">
+<li><code><a title="apparent.timing.TimerRegistryType.clear" href="#apparent.timing.TimerRegistryType.clear">clear</a></code></li>
+<li><code><a title="apparent.timing.TimerRegistryType.get" href="#apparent.timing.TimerRegistryType.get">get</a></code></li>
+<li><code><a title="apparent.timing.TimerRegistryType.names" href="#apparent.timing.TimerRegistryType.names">names</a></code></li>
+<li><code><a title="apparent.timing.TimerRegistryType.reset" href="#apparent.timing.TimerRegistryType.reset">reset</a></code></li>
+<li><code><a title="apparent.timing.TimerRegistryType.timers" href="#apparent.timing.TimerRegistryType.timers">timers</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="apparent.timing.TimerResults" href="#apparent.timing.TimerResults">TimerResults</a></code></h4>
+<ul class="two-column">
+<li><code><a title="apparent.timing.TimerResults.convert" href="#apparent.timing.TimerResults.convert">convert</a></code></li>
+<li><code><a title="apparent.timing.TimerResults.count" href="#apparent.timing.TimerResults.count">count</a></code></li>
+<li><code><a title="apparent.timing.TimerResults.dict" href="#apparent.timing.TimerResults.dict">dict</a></code></li>
+<li><code><a title="apparent.timing.TimerResults.max" href="#apparent.timing.TimerResults.max">max</a></code></li>
+<li><code><a title="apparent.timing.TimerResults.mean" href="#apparent.timing.TimerResults.mean">mean</a></code></li>
+<li><code><a title="apparent.timing.TimerResults.min" href="#apparent.timing.TimerResults.min">min</a></code></li>
+<li><code><a title="apparent.timing.TimerResults.round" href="#apparent.timing.TimerResults.round">round</a></code></li>
+<li><code><a title="apparent.timing.TimerResults.stdevp" href="#apparent.timing.TimerResults.stdevp">stdevp</a></code></li>
+<li><code><a title="apparent.timing.TimerResults.timer_name" href="#apparent.timing.TimerResults.timer_name">timer_name</a></code></li>
+<li><code><a title="apparent.timing.TimerResults.total_time" href="#apparent.timing.TimerResults.total_time">total_time</a></code></li>
+<li><code><a title="apparent.timing.TimerResults.units" href="#apparent.timing.TimerResults.units">units</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="apparent.timing.Units" href="#apparent.timing.Units">Units</a></code></h4>
+<ul class="">
+<li><code><a title="apparent.timing.Units.MIN" href="#apparent.timing.Units.MIN">MIN</a></code></li>
+<li><code><a title="apparent.timing.Units.MSEC" href="#apparent.timing.Units.MSEC">MSEC</a></code></li>
+<li><code><a title="apparent.timing.Units.SEC" href="#apparent.timing.Units.SEC">SEC</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

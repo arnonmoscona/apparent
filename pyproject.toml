@@ -28,6 +28,9 @@ packages = ["apparent"]
 test = [
     "coverage"
 ]
+dev = [
+    "pdoc"
+]
 
 [tool.flit.sdist]
 include = ["doc/", "apparent/", "bin/", "LICENSE.txt"]
