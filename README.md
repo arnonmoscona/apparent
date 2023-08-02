@@ -111,7 +111,30 @@ The timer registry has some additional functionality, such as replacing the defa
 
 ##### Builtin reporting
 
-**TBD**
+The `apparent.reports` module contains basic reporting functionality. Initially, what you can do
+is to produce a summary table of all your timers using the `timer_summary_table()` function,
+which has options for the level of details, the units, the rounding, and the sorting. But default
+it would do the "reasonable thing": using milliseconds rounded to 3 digits, sorted descending by mean 
+time. But you can change the results as you like.
+
+The report is produced as a CSV-like table (list of lists of strings) that can readily be used by various
+libraries. Most of the time you would want to print it nicely to the stdout of your terminal,
+and for that the [tabulate](https://pypi.org/project/tabulate/) package is great. For example, you can do 
+`print(tabulate(report, headers='firstrow', tablefmt='rounded_outline'))`
+
+and you will get something like this:
+
+```
+╭──────────────────────────────┬─────────┬─────────┬─────────╮
+│ timer_name                   │    mean │   count │     max │
+├──────────────────────────────┼─────────┼─────────┼─────────┤
+│ timer_reports_tests.slower() │ 102.325 │       2 │ 103.764 │
+│ timer_reports_tests.slow()   │  53.787 │       2 │  53.787 │
+│ timer_reports_tests.fast()   │   0.002 │       3 │   0.004 │
+╰──────────────────────────────┴─────────┴─────────┴─────────╯
+```
+
+A direct dependency on tabulate was not added to the code base at the time of this writing.
 
 ## Counters and metrics (todo)
 
