@@ -5,8 +5,8 @@ from typing import Iterable, List, Optional
 
 from apparent.timing import TimerRegistry, TimerRegistryType, Units
 
-ALL_TIMER_FIELDS = ('timer_name', 'mean', 'count', 'max', 'min', 'stdevp')
-DEFAULT_TIMER_FIELDS = ('timer_name', 'mean', 'count', 'max')
+ALL_TIMER_FIELDS = ('timer_name', 'mean', 'count', 'max', 'min', 'total_time', 'stdevp', 'units')
+DEFAULT_TIMER_FIELDS = ('timer_name', 'mean', 'count', 'max', 'total_time')
 DEFAULT_TIMER_SORT_FIELD = 'mean'
 
 
@@ -22,7 +22,7 @@ def timer_summary_table(fields: Iterable[str] = DEFAULT_TIMER_FIELDS,
         sort_field: the field to sort the results by. Time and count fields are sorted descending.
         units: The unites to use on all results. Default is Units.MSEC
         digits: The number of digits to round results to (the report is for human consumption)
-        registry: the timer regitry to use. Rarely used parameter.
+        registry: the timer registry to use. Rarely used parameter.
 
     Returns:
         A CSV-like report: list of lists, all strings. You can get it nicely formatted with the tabulate package.
