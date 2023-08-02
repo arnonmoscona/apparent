@@ -35,7 +35,7 @@ from dataclasses import asdict, dataclass
 from enum import Enum
 from functools import wraps
 from time import perf_counter
-from typing import Protocol, Type, Union
+from typing import Protocol, TypeVar
 
 
 class Units(Enum):
@@ -122,12 +122,12 @@ class RunningVariance:
         return self._k + self._ex / self._n
 
     def variance(self, population: bool = False) -&gt; float:
-        &#34;&#34;&#34;Computes the variance of the added values. By default uses sample variance. Can be population variance&#34;&#34;&#34;
+        &#34;&#34;&#34;Computes the variance of the added values. By default, uses sample variance. Can be population variance&#34;&#34;&#34;
         return (self._ex2 - self._ex ** 2 / self._n) / (self._n if population else self._n - 1)
 
     def stdev(self) -&gt; float:
         &#34;&#34;&#34;Computes the standard deviation of the added values.
-        By default uses sample variance. Can be population variance&#34;&#34;&#34;
+        By default, uses sample variance. Can be population variance&#34;&#34;&#34;
         return math.sqrt(self.variance())
 
     def stdevp(self) -&gt; float:
@@ -190,7 +190,7 @@ class Timer(AbstractContextManager):
         return self._max if self.counter &gt; 0 else math.nan
 
     def results(self, units=Units.SEC) -&gt; TimerResults:
-        &#34;&#34;&#34;TimerResults object packaging the summary of currrent observations.&#34;&#34;&#34;
+        &#34;&#34;&#34;TimerResults object packaging the summary of current observations.&#34;&#34;&#34;
         result = TimerResults(count=self.counter, total_time=self.sum,
                               mean=self.mean, stdevp=self.stdevp,
                               min=self.min, max=self.max,
@@ -223,7 +223,7 @@ class TimerRegistry:
         return list(cls._shared.keys())
 
     @classmethod
-    def timers(cls):
+    def timers(cls) -&gt; list[Timer]:
         &#34;&#34;&#34;Lists all the timers in the registry.
         Since it is expected that the number of timers will be limited and the whole
         package is not intended for very high scale we return a concrete list rather than an iterator&#34;&#34;&#34;
@@ -236,7 +236,7 @@ class TimerRegistry:
             del cls._shared[name]
 
 
-class TimerRegistryType(Protocol):
+class TimerRegistryProtocol(Protocol):
     &#34;&#34;&#34;For users who want to use some other implementation of a timer registry or want to
     use several timer registries for different contexts.&#34;&#34;&#34;
     def get(self, name: str) -&gt; Timer:
@@ -245,26 +245,30 @@ class TimerRegistryType(Protocol):
     def clear(self):
         ...
 
-    def names(self):
+    def names(self) -&gt; list[str]:
         ...
 
-    def timers(self):
+    def timers(self) -&gt; list[Timer]:
         ...
 
     def reset(self, name: str):
         ...
 
 
+TimerRegistryType = TypeVar(&#39;TimerRegistryType&#39;, TimerRegistryProtocol, TimerRegistry)
+&#34;&#34;&#34;Any acceptable type for a timer registry.&#34;&#34;&#34;
+
+
 class Timed:
     &#34;&#34;&#34;A simple class to associate a timer registry with the timed decorator. Rarely used.&#34;&#34;&#34;
-    _registry: Union[TimerRegistryType, Type[TimerRegistry]] = TimerRegistry
+    _registry: TimerRegistryType = TimerRegistry
 
     @classmethod
-    def registry(cls) -&gt; Union[TimerRegistryType, Type[TimerRegistry]]:
+    def registry(cls) -&gt; TimerRegistryType:
         return cls._registry
 
     @classmethod
-    def set_registry(cls, registry: Union[TimerRegistryType, Type[TimerRegistry]]):
+    def set_registry(cls, registry: TimerRegistryType):
         cls._registry = registry
 
 
@@ -289,6 +293,13 @@ def timed(f):
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-variables">Global variables</h2>
+<dl>
+<dt id="apparent.timing.TimerRegistryType"><code class="name">var <span class="ident">TimerRegistryType</span></code></dt>
+<dd>
+<div class="desc"><p>Any acceptable type for a timer registry.</p></div>
+</dd>
+</dl>
 </section>
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
@@ -363,12 +374,12 @@ from the module and qualified name of the function.</p></div>
         return self._k + self._ex / self._n
 
     def variance(self, population: bool = False) -&gt; float:
-        &#34;&#34;&#34;Computes the variance of the added values. By default uses sample variance. Can be population variance&#34;&#34;&#34;
+        &#34;&#34;&#34;Computes the variance of the added values. By default, uses sample variance. Can be population variance&#34;&#34;&#34;
         return (self._ex2 - self._ex ** 2 / self._n) / (self._n if population else self._n - 1)
 
     def stdev(self) -&gt; float:
         &#34;&#34;&#34;Computes the standard deviation of the added values.
-        By default uses sample variance. Can be population variance&#34;&#34;&#34;
+        By default, uses sample variance. Can be population variance&#34;&#34;&#34;
         return math.sqrt(self.variance())
 
     def stdevp(self) -&gt; float:
@@ -435,14 +446,14 @@ def n(self):
 </code></dt>
 <dd>
 <div class="desc"><p>Computes the standard deviation of the added values.
-By default uses sample variance. Can be population variance</p></div>
+By default, uses sample variance. Can be population variance</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def stdev(self) -&gt; float:
     &#34;&#34;&#34;Computes the standard deviation of the added values.
-    By default uses sample variance. Can be population variance&#34;&#34;&#34;
+    By default, uses sample variance. Can be population variance&#34;&#34;&#34;
     return math.sqrt(self.variance())</code></pre>
 </details>
 </dd>
@@ -464,13 +475,13 @@ By default uses sample variance. Can be population variance</p></div>
 <span>def <span class="ident">variance</span></span>(<span>self, population: bool = False) ‑> float</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Computes the variance of the added values. By default uses sample variance. Can be population variance</p></div>
+<div class="desc"><p>Computes the variance of the added values. By default, uses sample variance. Can be population variance</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def variance(self, population: bool = False) -&gt; float:
-    &#34;&#34;&#34;Computes the variance of the added values. By default uses sample variance. Can be population variance&#34;&#34;&#34;
+    &#34;&#34;&#34;Computes the variance of the added values. By default, uses sample variance. Can be population variance&#34;&#34;&#34;
     return (self._ex2 - self._ex ** 2 / self._n) / (self._n if population else self._n - 1)</code></pre>
 </details>
 </dd>
@@ -487,20 +498,20 @@ By default uses sample variance. Can be population variance</p></div>
 </summary>
 <pre><code class="python">class Timed:
     &#34;&#34;&#34;A simple class to associate a timer registry with the timed decorator. Rarely used.&#34;&#34;&#34;
-    _registry: Union[TimerRegistryType, Type[TimerRegistry]] = TimerRegistry
+    _registry: TimerRegistryType = TimerRegistry
 
     @classmethod
-    def registry(cls) -&gt; Union[TimerRegistryType, Type[TimerRegistry]]:
+    def registry(cls) -&gt; TimerRegistryType:
         return cls._registry
 
     @classmethod
-    def set_registry(cls, registry: Union[TimerRegistryType, Type[TimerRegistry]]):
+    def set_registry(cls, registry: TimerRegistryType):
         cls._registry = registry</code></pre>
 </details>
 <h3>Static methods</h3>
 <dl>
 <dt id="apparent.timing.Timed.registry"><code class="name flex">
-<span>def <span class="ident">registry</span></span>(<span>) ‑> Union[<a title="apparent.timing.TimerRegistryType" href="#apparent.timing.TimerRegistryType">TimerRegistryType</a>, Type[<a title="apparent.timing.TimerRegistry" href="#apparent.timing.TimerRegistry">TimerRegistry</a>]]</span>
+<span>def <span class="ident">registry</span></span>(<span>) ‑> ~<a title="apparent.timing.TimerRegistryType" href="#apparent.timing.TimerRegistryType">TimerRegistryType</a></span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -509,12 +520,12 @@ By default uses sample variance. Can be population variance</p></div>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@classmethod
-def registry(cls) -&gt; Union[TimerRegistryType, Type[TimerRegistry]]:
+def registry(cls) -&gt; TimerRegistryType:
     return cls._registry</code></pre>
 </details>
 </dd>
 <dt id="apparent.timing.Timed.set_registry"><code class="name flex">
-<span>def <span class="ident">set_registry</span></span>(<span>registry: Union[<a title="apparent.timing.TimerRegistryType" href="#apparent.timing.TimerRegistryType">TimerRegistryType</a>, Type[<a title="apparent.timing.TimerRegistry" href="#apparent.timing.TimerRegistry">TimerRegistry</a>]])</span>
+<span>def <span class="ident">set_registry</span></span>(<span>registry: ~<a title="apparent.timing.TimerRegistryType" href="#apparent.timing.TimerRegistryType">TimerRegistryType</a>)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -523,7 +534,7 @@ def registry(cls) -&gt; Union[TimerRegistryType, Type[TimerRegistry]]:
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@classmethod
-def set_registry(cls, registry: Union[TimerRegistryType, Type[TimerRegistry]]):
+def set_registry(cls, registry: TimerRegistryType):
     cls._registry = registry</code></pre>
 </details>
 </dd>
@@ -590,7 +601,7 @@ Most of the time you will find yourself using one of the associated function dec
         return self._max if self.counter &gt; 0 else math.nan
 
     def results(self, units=Units.SEC) -&gt; TimerResults:
-        &#34;&#34;&#34;TimerResults object packaging the summary of currrent observations.&#34;&#34;&#34;
+        &#34;&#34;&#34;TimerResults object packaging the summary of current observations.&#34;&#34;&#34;
         result = TimerResults(count=self.counter, total_time=self.sum,
                               mean=self.mean, stdevp=self.stdevp,
                               min=self.min, max=self.max,
@@ -676,13 +687,13 @@ def stdevp(self) -&gt; float:
 <span>def <span class="ident">results</span></span>(<span>self, units=Units.SEC) ‑> <a title="apparent.timing.TimerResults" href="#apparent.timing.TimerResults">TimerResults</a></span>
 </code></dt>
 <dd>
-<div class="desc"><p>TimerResults object packaging the summary of currrent observations.</p></div>
+<div class="desc"><p>TimerResults object packaging the summary of current observations.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def results(self, units=Units.SEC) -&gt; TimerResults:
-    &#34;&#34;&#34;TimerResults object packaging the summary of currrent observations.&#34;&#34;&#34;
+    &#34;&#34;&#34;TimerResults object packaging the summary of current observations.&#34;&#34;&#34;
     result = TimerResults(count=self.counter, total_time=self.sum,
                           mean=self.mean, stdevp=self.stdevp,
                           min=self.min, max=self.max,
@@ -726,7 +737,7 @@ def stdevp(self) -&gt; float:
         return list(cls._shared.keys())
 
     @classmethod
-    def timers(cls):
+    def timers(cls) -&gt; list[Timer]:
         &#34;&#34;&#34;Lists all the timers in the registry.
         Since it is expected that the number of timers will be limited and the whole
         package is not intended for very high scale we return a concrete list rather than an iterator&#34;&#34;&#34;
@@ -810,7 +821,7 @@ def reset(cls, name: str):
 </details>
 </dd>
 <dt id="apparent.timing.TimerRegistry.timers"><code class="name flex">
-<span>def <span class="ident">timers</span></span>(<span>)</span>
+<span>def <span class="ident">timers</span></span>(<span>) ‑> list[<a title="apparent.timing.Timer" href="#apparent.timing.Timer">Timer</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Lists all the timers in the registry.
@@ -821,7 +832,7 @@ package is not intended for very high scale we return a concrete list rather tha
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@classmethod
-def timers(cls):
+def timers(cls) -&gt; list[Timer]:
     &#34;&#34;&#34;Lists all the timers in the registry.
     Since it is expected that the number of timers will be limited and the whole
     package is not intended for very high scale we return a concrete list rather than an iterator&#34;&#34;&#34;
@@ -830,8 +841,8 @@ def timers(cls):
 </dd>
 </dl>
 </dd>
-<dt id="apparent.timing.TimerRegistryType"><code class="flex name class">
-<span>class <span class="ident">TimerRegistryType</span></span>
+<dt id="apparent.timing.TimerRegistryProtocol"><code class="flex name class">
+<span>class <span class="ident">TimerRegistryProtocol</span></span>
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
@@ -841,7 +852,7 @@ use several timer registries for different contexts.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class TimerRegistryType(Protocol):
+<pre><code class="python">class TimerRegistryProtocol(Protocol):
     &#34;&#34;&#34;For users who want to use some other implementation of a timer registry or want to
     use several timer registries for different contexts.&#34;&#34;&#34;
     def get(self, name: str) -&gt; Timer:
@@ -850,10 +861,10 @@ use several timer registries for different contexts.</p></div>
     def clear(self):
         ...
 
-    def names(self):
+    def names(self) -&gt; list[str]:
         ...
 
-    def timers(self):
+    def timers(self) -&gt; list[Timer]:
         ...
 
     def reset(self, name: str):
@@ -866,7 +877,7 @@ use several timer registries for different contexts.</p></div>
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="apparent.timing.TimerRegistryType.clear"><code class="name flex">
+<dt id="apparent.timing.TimerRegistryProtocol.clear"><code class="name flex">
 <span>def <span class="ident">clear</span></span>(<span>self)</span>
 </code></dt>
 <dd>
@@ -879,7 +890,7 @@ use several timer registries for different contexts.</p></div>
     ...</code></pre>
 </details>
 </dd>
-<dt id="apparent.timing.TimerRegistryType.get"><code class="name flex">
+<dt id="apparent.timing.TimerRegistryProtocol.get"><code class="name flex">
 <span>def <span class="ident">get</span></span>(<span>self, name: str) ‑> <a title="apparent.timing.Timer" href="#apparent.timing.Timer">Timer</a></span>
 </code></dt>
 <dd>
@@ -892,8 +903,8 @@ use several timer registries for different contexts.</p></div>
     ...</code></pre>
 </details>
 </dd>
-<dt id="apparent.timing.TimerRegistryType.names"><code class="name flex">
-<span>def <span class="ident">names</span></span>(<span>self)</span>
+<dt id="apparent.timing.TimerRegistryProtocol.names"><code class="name flex">
+<span>def <span class="ident">names</span></span>(<span>self) ‑> list[str]</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -901,11 +912,11 @@ use several timer registries for different contexts.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def names(self):
+<pre><code class="python">def names(self) -&gt; list[str]:
     ...</code></pre>
 </details>
 </dd>
-<dt id="apparent.timing.TimerRegistryType.reset"><code class="name flex">
+<dt id="apparent.timing.TimerRegistryProtocol.reset"><code class="name flex">
 <span>def <span class="ident">reset</span></span>(<span>self, name: str)</span>
 </code></dt>
 <dd>
@@ -918,8 +929,8 @@ use several timer registries for different contexts.</p></div>
     ...</code></pre>
 </details>
 </dd>
-<dt id="apparent.timing.TimerRegistryType.timers"><code class="name flex">
-<span>def <span class="ident">timers</span></span>(<span>self)</span>
+<dt id="apparent.timing.TimerRegistryProtocol.timers"><code class="name flex">
+<span>def <span class="ident">timers</span></span>(<span>self) ‑> list[<a title="apparent.timing.Timer" href="#apparent.timing.Timer">Timer</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -927,7 +938,7 @@ use several timer registries for different contexts.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def timers(self):
+<pre><code class="python">def timers(self) -&gt; list[Timer]:
     ...</code></pre>
 </details>
 </dd>
@@ -1177,6 +1188,11 @@ attributes &ndash; see the documentation for details.</p></div>
 <li><code><a title="apparent" href="index.html">apparent</a></code></li>
 </ul>
 </li>
+<li><h3><a href="#header-variables">Global variables</a></h3>
+<ul class="">
+<li><code><a title="apparent.timing.TimerRegistryType" href="#apparent.timing.TimerRegistryType">TimerRegistryType</a></code></li>
+</ul>
+</li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
 <li><code><a title="apparent.timing.timed" href="#apparent.timing.timed">timed</a></code></li>
@@ -1224,13 +1240,13 @@ attributes &ndash; see the documentation for details.</p></div>
 </ul>
 </li>
 <li>
-<h4><code><a title="apparent.timing.TimerRegistryType" href="#apparent.timing.TimerRegistryType">TimerRegistryType</a></code></h4>
+<h4><code><a title="apparent.timing.TimerRegistryProtocol" href="#apparent.timing.TimerRegistryProtocol">TimerRegistryProtocol</a></code></h4>
 <ul class="">
-<li><code><a title="apparent.timing.TimerRegistryType.clear" href="#apparent.timing.TimerRegistryType.clear">clear</a></code></li>
-<li><code><a title="apparent.timing.TimerRegistryType.get" href="#apparent.timing.TimerRegistryType.get">get</a></code></li>
-<li><code><a title="apparent.timing.TimerRegistryType.names" href="#apparent.timing.TimerRegistryType.names">names</a></code></li>
-<li><code><a title="apparent.timing.TimerRegistryType.reset" href="#apparent.timing.TimerRegistryType.reset">reset</a></code></li>
-<li><code><a title="apparent.timing.TimerRegistryType.timers" href="#apparent.timing.TimerRegistryType.timers">timers</a></code></li>
+<li><code><a title="apparent.timing.TimerRegistryProtocol.clear" href="#apparent.timing.TimerRegistryProtocol.clear">clear</a></code></li>
+<li><code><a title="apparent.timing.TimerRegistryProtocol.get" href="#apparent.timing.TimerRegistryProtocol.get">get</a></code></li>
+<li><code><a title="apparent.timing.TimerRegistryProtocol.names" href="#apparent.timing.TimerRegistryProtocol.names">names</a></code></li>
+<li><code><a title="apparent.timing.TimerRegistryProtocol.reset" href="#apparent.timing.TimerRegistryProtocol.reset">reset</a></code></li>
+<li><code><a title="apparent.timing.TimerRegistryProtocol.timers" href="#apparent.timing.TimerRegistryProtocol.timers">timers</a></code></li>
 </ul>
 </li>
 <li>

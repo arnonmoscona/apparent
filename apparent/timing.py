@@ -6,7 +6,7 @@ from dataclasses import asdict, dataclass
 from enum import Enum
 from functools import wraps
 from time import perf_counter
-from typing import Protocol, Type, Union
+from typing import Protocol, TypeVar
 
 
 class Units(Enum):
@@ -93,12 +93,12 @@ class RunningVariance:
         return self._k + self._ex / self._n
 
     def variance(self, population: bool = False) -> float:
-        """Computes the variance of the added values. By default uses sample variance. Can be population variance"""
+        """Computes the variance of the added values. By default, uses sample variance. Can be population variance"""
         return (self._ex2 - self._ex ** 2 / self._n) / (self._n if population else self._n - 1)
 
     def stdev(self) -> float:
         """Computes the standard deviation of the added values.
-        By default uses sample variance. Can be population variance"""
+        By default, uses sample variance. Can be population variance"""
         return math.sqrt(self.variance())
 
     def stdevp(self) -> float:
@@ -161,7 +161,7 @@ class Timer(AbstractContextManager):
         return self._max if self.counter > 0 else math.nan
 
     def results(self, units=Units.SEC) -> TimerResults:
-        """TimerResults object packaging the summary of currrent observations."""
+        """TimerResults object packaging the summary of current observations."""
         result = TimerResults(count=self.counter, total_time=self.sum,
                               mean=self.mean, stdevp=self.stdevp,
                               min=self.min, max=self.max,
@@ -194,7 +194,7 @@ class TimerRegistry:
         return list(cls._shared.keys())
 
     @classmethod
-    def timers(cls):
+    def timers(cls) -> list[Timer]:
         """Lists all the timers in the registry.
         Since it is expected that the number of timers will be limited and the whole
         package is not intended for very high scale we return a concrete list rather than an iterator"""
@@ -207,7 +207,7 @@ class TimerRegistry:
             del cls._shared[name]
 
 
-class TimerRegistryType(Protocol):
+class TimerRegistryProtocol(Protocol):
     """For users who want to use some other implementation of a timer registry or want to
     use several timer registries for different contexts."""
     def get(self, name: str) -> Timer:
@@ -216,26 +216,30 @@ class TimerRegistryType(Protocol):
     def clear(self):
         ...
 
-    def names(self):
+    def names(self) -> list[str]:
         ...
 
-    def timers(self):
+    def timers(self) -> list[Timer]:
         ...
 
     def reset(self, name: str):
         ...
 
 
+TimerRegistryType = TypeVar('TimerRegistryType', TimerRegistryProtocol, TimerRegistry)
+"""Any acceptable type for a timer registry."""
+
+
 class Timed:
     """A simple class to associate a timer registry with the timed decorator. Rarely used."""
-    _registry: Union[TimerRegistryType, Type[TimerRegistry]] = TimerRegistry
+    _registry: TimerRegistryType = TimerRegistry
 
     @classmethod
-    def registry(cls) -> Union[TimerRegistryType, Type[TimerRegistry]]:
+    def registry(cls) -> TimerRegistryType:
         return cls._registry
 
     @classmethod
-    def set_registry(cls, registry: Union[TimerRegistryType, Type[TimerRegistry]]):
+    def set_registry(cls, registry: TimerRegistryType):
         cls._registry = registry
 
 
