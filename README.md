@@ -17,7 +17,8 @@ Tools and frameworks. It is intended to remain small and compact.
 The most common use and the first to release as OSS is the timers functionality. There are many tools out there that do
 Broadly similar things. In particular, two categories of tools are similar in some ways:
 
-* Profilers (for example [yappi](https://github.com/sumerc/yappi))
+* Profilers (for example cprofile, [yappi](https://github.com/sumerc/yappi), 
+  [pyinstrument](https://github.com/joerick/pyinstrument), ...)
 * Micro-benchmarking tools of various kinds
 
 This library is neither of the above. The idea here is to have lightweight, possibly permanent instrumentation for timing measurements of functions or sections of code of particular interest, which you may or may not expose to some 
@@ -50,7 +51,7 @@ Measuring the timing of a section of code with a registered timer.
 ```python
 from apparent.timing import TimerRegistry
 
-while some_consition_applies():
+while some_condition_applies():
     do_something()
     with TimerRegistry.get('expensive_section'):
         do_expensive_section()
